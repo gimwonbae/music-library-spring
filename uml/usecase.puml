@@ -1,0 +1,36 @@
+@startuml
+left to right direction
+:User:
+:Auth: <<System>>
+:Admin:
+rectangle Library {
+  User -- (Add Album in library)
+  (Add Album in library) .-> (Rate Album) : <<include>>
+  User -- (Modify rating of album on Library)
+  User -- (Search album on DB)
+  User -- (Search album on Library)
+  (Search album on Library) <-. (Search using parameters) : <<extend>>
+  User -- (Delete album on Library)
+  (Search album on DB) <-. (Search using parameters) : <<extend>>
+  User -- (Modify Account info)
+  User -- (Create Account)
+  User -- (Delete Account)
+
+  User ---- (Log in)
+  User ---- (Log out)
+  Admin -- (Log in)
+  Admin -- (Log out)
+  (Log in) --- Auth
+  (Log out) -- Auth
+  note "All of the leftside usecase needed 'Log in' and 'Log out'\n But I omitted this to simplify diagram." as N1
+  (Log in) -- N1
+  (Log out) -- N1
+  Admin -- (Add Album in DB)
+  Admin -- (Modify Album in DB)
+  Admin -- (Delete Album on DB)
+  Admin -- (Add User)
+  Admin -- (Modify User)
+  Admin -- (Delete User)
+}
+
+@enduml
