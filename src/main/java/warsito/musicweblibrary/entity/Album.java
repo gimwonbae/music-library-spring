@@ -1,4 +1,4 @@
-package warsito.musicweblibrary;
+package warsito.musicweblibrary.entity;
 
 import lombok.Data;
 
@@ -8,7 +8,8 @@ import java.time.LocalDate;
 public class Album {
     private final int id;
     private final String name;
-    private final String artist;
+    private final int artist_id;
     private final String genre;
     private final LocalDate release;
+    private Rate rate;
 }
