@@ -19,15 +19,13 @@ public class Library {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "USER_ID")
+    @OneToOne(targetEntity = User.class)
     private User user;
 
     @Enumerated
     private Rate rate;
 
-    @OneToOne
-    @JoinColumn(name = "ALBUM_ID")
+    @OneToOne(targetEntity = Album.class)
     @NotNull
     private Album album;
 

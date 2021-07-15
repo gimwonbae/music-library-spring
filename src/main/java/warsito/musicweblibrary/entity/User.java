@@ -18,8 +18,6 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "USER_ID")
     private String id;
 
     @NotBlank

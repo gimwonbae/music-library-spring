@@ -17,15 +17,13 @@ import java.time.LocalDate;
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ALBUM_ID")
     private Long id;
 
     @NotBlank
     @Size(min = 1, max = 40, message = "size of album name: 1 to 40")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "ARTIST_ID")
+    @ManyToOne(targetEntity = Artist.class)
     private Artist artist;
 
     private String genre;

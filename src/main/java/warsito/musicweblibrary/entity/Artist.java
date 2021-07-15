@@ -19,7 +19,6 @@ import java.util.List;
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ARTIST_ID")
     private Long id;
 
     @NotBlank
@@ -29,7 +28,6 @@ public class Artist {
     private LocalDate born;
     private LocalDate died;
 
-    @OneToMany(mappedBy = "artist")
-    @JoinColumn(name = "ALBUM_ID", insertable = false, updatable = false)
+    @OneToMany(targetEntity = Album.class)
     private List<Album> albums = new ArrayList<>();
 }
