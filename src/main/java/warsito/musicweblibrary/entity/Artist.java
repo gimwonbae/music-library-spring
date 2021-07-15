@@ -28,6 +28,6 @@ public class Artist {
     private LocalDate born;
     private LocalDate died;
 
-    @OneToMany(targetEntity = Album.class)
-    private List<Album> albums = new ArrayList<>();
+//    @OneToMany(targetEntity = Album.class)
+//    private List<Album> albums = new ArrayList<>();
 }
