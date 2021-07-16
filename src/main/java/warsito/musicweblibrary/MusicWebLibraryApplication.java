@@ -20,11 +20,14 @@ public class MusicWebLibraryApplication {
 	}
 
 //	@Bean
-//	public CommandLineRunner dataLoader(AlbumRepository albumRepo, ArtistRepository artRepo, LibraryRepository libRepo) {
+//	public CommandLineRunner dataLoader(AlbumRepository albumRepo, ArtistRepository artistRepo, LibraryRepository libRepo) {
 //		return new CommandLineRunner() {
 //			@Override
 //			public void run(String... args) throws Exception {
+//				artistRepo.save(new Artist(1, "biggie1", LocalDate.of(2020, 1, 1), LocalDate.of(2020,1,1)));
+//				artistRepo.save(new Artist(2, "biggie2", LocalDate.of(2020, 1, 1), LocalDate.of(2020,1,1)));
+//				artistRepo.save(new Artist(3, "biggie3", LocalDate.of(2020, 1, 1), LocalDate.of(2020,1,1)));
 //			}
-//		}
+//		};
 //	}
 }

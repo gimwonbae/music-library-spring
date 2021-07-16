@@ -13,9 +13,9 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
+//@RequiredArgsConstructor
+//@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
-@RequiredArgsConstructor
 public class User {
     @Id
     private String id;

@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
-@RequiredArgsConstructor
+//@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+//@RequiredArgsConstructor
 public class Library {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

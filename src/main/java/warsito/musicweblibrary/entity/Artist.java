@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
 @RequiredArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+//@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@Entity
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,6 +27,7 @@ public class Artist {
 
     private LocalDate born;
     private LocalDate died;
+
 
 //    @OneToMany(targetEntity = Album.class)
 //    private List<Album> albums = new ArrayList<>();
