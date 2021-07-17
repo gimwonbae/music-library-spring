@@ -13,8 +13,6 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-//@RequiredArgsConstructor
-//@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

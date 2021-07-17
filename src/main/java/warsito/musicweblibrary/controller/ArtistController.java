@@ -27,6 +27,6 @@ public class ArtistController {
     public ResponseEntity<Artist> artistById(@PathVariable("id") Long id){
         Optional<Artist> optArtist = artistRepo.findById(id);
         if (optArtist.isPresent()) return new ResponseEntity<>(optArtist.get(), HttpStatus.OK);
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

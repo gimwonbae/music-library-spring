@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@RequiredArgsConstructor
-//@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @Entity
 public class Artist {
     @Id
