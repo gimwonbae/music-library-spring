@@ -1,5 +1,6 @@
 package warsito.musicweblibrary.controller;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "/album", produces = "application/json")
 @CrossOrigin(origins = "*")
+@Lazy
 public class AlbumController {
     private AlbumRepository albumRepo;
 
@@ -31,7 +33,7 @@ public class AlbumController {
     ){
         LocalDate startDate = LocalDate.of(startYear, 1 ,1);
         LocalDate endDate = LocalDate.of(endYear, 12, 31);
-        return albumRepo.findByNameContainsAndGenreContainsAndReleaseBetweenAndRateBetween(name, genre, startDate, endDate, startRate, endRate);
+        return albumRepo.findByAlbumNameContainsAndGenreContainsAndReleaseDateBetweenAndRateBetween(name, genre, startDate, endDate, startRate, endRate);
     }
 
     @GetMapping(path = "/{id}")

@@ -1,9 +1,6 @@
 package warsito.musicweblibrary.entity;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import warsito.musicweblibrary.Rate;
 
 import javax.persistence.*;
@@ -20,13 +17,13 @@ public class Album {
 
     @NotBlank
     @Size(min = 1, max = 40, message = "size of album name: 1 to 40")
-    private String name;
+    private String albumName;
 
     @ManyToOne(targetEntity = Artist.class)
     private Artist artist;
 
     private String genre;
-    private LocalDate release;
+    private LocalDate releaseDate;
 
     @Enumerated
     private Rate rate;

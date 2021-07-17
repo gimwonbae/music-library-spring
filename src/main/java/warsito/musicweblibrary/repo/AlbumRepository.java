@@ -9,7 +9,7 @@ import warsito.musicweblibrary.Rate;
 import java.time.LocalDate;
 
 public interface AlbumRepository extends CrudRepository<Album, Long> {
-    Iterable<Album> findByNameContainsAndGenreContainsAndReleaseBetweenAndRateBetween(String name,
+    Iterable<Album> findByAlbumNameContainsAndGenreContainsAndReleaseDateBetweenAndRateBetween(String name,
                                String genre,
                                LocalDate startDate,
                                LocalDate endDate,
