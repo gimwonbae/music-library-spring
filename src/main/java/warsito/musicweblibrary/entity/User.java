@@ -1,9 +1,7 @@
 package warsito.musicweblibrary.entity;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,57 +14,46 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Set;
 
 @Data
 @Entity
-public class User implements UserDetails {
-    private static final long serialVersionUID = 1L;
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "user")
+public class User {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long id;
 
     @NotBlank
     @Size(min = 4, max = 10, message = "size of username : 4 to 10")
     private String username;
 
+    private String password;
+
     @Email
     @NotBlank
     private String email;
 
+    @JsonIgnore
     private LocalDate createdAt;
+    @JsonIgnore
     private LocalDate modifiedAt;
+    @JsonIgnore
+    private boolean activated;
 
-    @Size(min = 8, max = 15, message = "size of password: 8 to 15")
-    private String password;
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
+//    @PrePersist
+//    void createdAt() {
+//        this.createdAt = LocalDate.now();
+//    }
 
-    @PrePersist
-    void createdAt() {
-        this.createdAt = LocalDate.now();
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

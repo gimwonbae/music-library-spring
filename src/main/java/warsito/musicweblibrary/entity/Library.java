@@ -18,7 +18,8 @@ public class Library {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(targetEntity = User.class)
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Enumerated
