@@ -45,6 +45,7 @@ public class AlbumController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Album> postAlbum(@RequestBody Map<String, Object> json){
         String albumName = (String) json.get("albumName");
+
         Artist artist = artistRepo.findById(Long.valueOf((int)json.get("artistId"))).get();
         String genre = (String) json.get("genre");
         LocalDate releaseDate = LocalDate.parse((String) json.get("releaseDate"));

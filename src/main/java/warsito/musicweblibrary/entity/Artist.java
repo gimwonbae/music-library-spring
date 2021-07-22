@@ -1,9 +1,6 @@
 package warsito.musicweblibrary.entity;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +11,9 @@ import java.util.List;
 
 @Data
 @Entity
+@RequiredArgsConstructor
+@NoArgsConstructor(force = true)
+//@AllArgsConstructor
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,10 +21,10 @@ public class Artist {
 
     @NotBlank
     @Size(min = 1, max = 20, message = "size of artist name : 1 to 20")
-    private String name;
+    final private String name;
 
-    private LocalDate born;
-    private LocalDate died;
+    final private LocalDate born;
+    final private LocalDate died;
 
 
 //    @OneToMany(targetEntity = Album.class)
