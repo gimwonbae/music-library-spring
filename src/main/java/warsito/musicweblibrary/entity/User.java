@@ -18,14 +18,11 @@ import java.util.Set;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user")
-public class User {
-    @JsonIgnore
+@RequiredArgsConstructor
+public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
     private Long id;
 
     @NotBlank
@@ -38,20 +35,36 @@ public class User {
     @NotBlank
     private String email;
 
-    @JsonIgnore
     private LocalDate createdAt;
-    @JsonIgnore
     private LocalDate modifiedAt;
-    @JsonIgnore
     private boolean activated;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_authority",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
-    private Set<Authority> authorities;
-//    @PrePersist
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    //    @PrePersist
 //    void createdAt() {
 //        this.createdAt = LocalDate.now();
 //    }

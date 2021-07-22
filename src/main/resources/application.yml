@@ -25,7 +25,5 @@ spring:
 
 jwt:
     header: Authorization
-    #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
-    #echo 'silvernine-tech-spring-boot-jwt-tutorial-secret-silvernine-tech-spring-boot-jwt-tutorial-secret'|base64
     secret: d2FyaXN0by13ZWItbXVzaWMtbGlicmFyeS13b25iYWUtc3ByaW5nLXRvby1kaWZmaWN1bHQtaW0tdmVyeS10aXJlZC10b28tbXVjaC10cmlja3ktbGlmZQo
     token-validity-in-seconds: 86400
