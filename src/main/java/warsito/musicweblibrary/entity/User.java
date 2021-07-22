@@ -19,7 +19,6 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

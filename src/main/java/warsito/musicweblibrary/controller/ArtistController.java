@@ -19,8 +19,9 @@ public class ArtistController {
     }
 
     @GetMapping
-    public Iterable<Artist> allArtists(){
-        return artistRepo.findAll();
+    public Iterable<Artist> allArtists(
+            @RequestParam(value = "name", required = false, defaultValue = "") String name){
+        return artistRepo.findByNameContains(name);
     }
 
     @GetMapping(path = "/{id}")

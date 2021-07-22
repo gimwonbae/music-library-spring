@@ -1,25 +1,31 @@
 package warsito.musicweblibrary.controller;
 
-import org.springframework.context.annotation.Lazy;
+import com.fasterxml.jackson.datatype.jsr310.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import warsito.musicweblibrary.Rate;
 import warsito.musicweblibrary.entity.Album;
+import warsito.musicweblibrary.entity.Artist;
 import warsito.musicweblibrary.repo.AlbumRepository;
+import warsito.musicweblibrary.repo.ArtistRepository;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/album", produces = "application/json")
 @CrossOrigin(origins = "*")
-@Lazy
 public class AlbumController {
     private AlbumRepository albumRepo;
+    private ArtistRepository artistRepo;
 
-    public AlbumController(AlbumRepository albumRepo){
+    public AlbumController(AlbumRepository albumRepo, ArtistRepository artistRepo){
         this.albumRepo = albumRepo;
+        this.artistRepo = artistRepo;
     }
 
     @GetMapping
@@ -36,10 +42,25 @@ public class AlbumController {
         return albumRepo.findByAlbumNameContainsAndGenreContainsAndReleaseDateBetweenAndRateBetween(name, genre, startDate, endDate, startRate, endRate);
     }
 
+    @PostMapping(consumes = "application/json")
+    public ResponseEntity<Album> postAlbum(@RequestBody Map<String, Object> json){
+        String albumName = (String) json.get("albumName");
+        Artist artist = artistRepo.findById(Long.valueOf((int)json.get("artistId"))).get();
+        String genre = (String) json.get("genre");
+        LocalDate releaseDate = LocalDate.parse((String) json.get("releaseDate"));
+        Rate rate = Rate.intToRate((Integer) json.get("rate"));
+
+        Album album = new Album(albumName, artist, genre, releaseDate, rate);
+
+        albumRepo.save(album);
+        return new ResponseEntity<>(album, HttpStatus.CREATED);
+    }
+
     @GetMapping(path = "/{id}")
     public ResponseEntity<Album> albumById(@PathVariable("id") Long id){
         Optional<Album> optAlbum = albumRepo.findById(id);
         if (optAlbum.isPresent()) return new ResponseEntity<>(optAlbum.get(), HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
 }
