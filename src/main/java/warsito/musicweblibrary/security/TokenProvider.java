@@ -47,10 +47,24 @@ public class TokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+//    public String createToken(String username, List<Role> roles) {
+//
+//        Claims claims = Jwts.claims().setSubject(username);
+//        claims.put("auth", roles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).filter(Objects::nonNull).collect(Collectors.toList()));
+//
+//        Date now = new Date();
+//        Date validity = new Date(now.getTime() + validityInMilliseconds);
+//
+//        return Jwts.builder()//
+//                .setClaims(claims)//
+//                .setIssuedAt(now)//
+//                .setExpiration(validity)//
+//                .signWith(SignatureAlgorithm.HS256, secretKey)//
+//                .compact();
+//    }
+    public String createToken(String username, Collection<? extends GrantedAuthority> authorities) {
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put("auth", authorities.stream().filter(Objects::nonNull).collect(Collectors.toList()));
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime validity = now.plusNanos(this.tokenValidityInMilliseconds);
@@ -61,8 +75,8 @@ public class TokenProvider implements InitializingBean {
 
         return Jwts.builder()
                 .setHeader(headers)
-                .claim("auth", authorities)
-                .setSubject(authentication.getName())
+                .setClaims(claims)
+                .setIssuedAt(Timestamp.valueOf(now))
                 .setExpiration(Timestamp.valueOf(validity))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
