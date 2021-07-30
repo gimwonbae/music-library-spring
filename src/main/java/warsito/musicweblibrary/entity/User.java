@@ -18,7 +18,8 @@ import java.util.Set;
 
 @Data
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,17 +27,16 @@ public class User implements UserDetails{
 
     @NotBlank
     @Size(min = 4, max = 10, message = "size of username : 4 to 10")
-    private String username;
+    private final String username;
 
-    private String password;
+    private final String password;
 
     @Email
     @NotBlank
-    private String email;
+    private final String email;
 
-    private LocalDate createdAt;
-    private LocalDate modifiedAt;
-    private boolean activated;
+    private final LocalDate createdAt;
+    private final LocalDate modifiedAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
