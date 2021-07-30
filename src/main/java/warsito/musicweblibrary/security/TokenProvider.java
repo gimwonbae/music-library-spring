@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider implements InitializingBean {
     private final String secret;
-    private final long tokenValidityInMilliseconds;
+    private final long tokenValidityInSeconds;
 
     private Key key;
 
@@ -36,7 +36,7 @@ public class TokenProvider implements InitializingBean {
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
         this.secret = secret;
-        this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+        this.tokenValidityInSeconds = tokenValidityInSeconds;
     }
     @Autowired
     private UserRepositoryUserDetailsService userRepositoryUserDetailsService;
@@ -47,27 +47,12 @@ public class TokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-//    public String createToken(String username, List<Role> roles) {
-//
-//        Claims claims = Jwts.claims().setSubject(username);
-//        claims.put("auth", roles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).filter(Objects::nonNull).collect(Collectors.toList()));
-//
-//        Date now = new Date();
-//        Date validity = new Date(now.getTime() + validityInMilliseconds);
-//
-//        return Jwts.builder()//
-//                .setClaims(claims)//
-//                .setIssuedAt(now)//
-//                .setExpiration(validity)//
-//                .signWith(SignatureAlgorithm.HS256, secretKey)//
-//                .compact();
-//    }
     public String createToken(String username, Collection<? extends GrantedAuthority> authorities) {
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put("auth", authorities.stream().filter(Objects::nonNull).collect(Collectors.toList()));
+        claims.put("auth", authorities.stream().filter(Objects::nonNull).map(s -> s.getAuthority()).collect(Collectors.toList()));
 
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime validity = now.plusNanos(this.tokenValidityInMilliseconds);
+        LocalDateTime validity = now.plusSeconds(this.tokenValidityInSeconds);
 
         Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
@@ -98,11 +83,19 @@ public class TokenProvider implements InitializingBean {
         return null;
     }
 
+    public String resolveToken(String bearerToken) {
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
+//            return false;
             throw new CustomException("Expired or invalid JWT token", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

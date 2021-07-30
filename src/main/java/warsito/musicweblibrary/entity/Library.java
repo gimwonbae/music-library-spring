@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@RequiredArgsConstructor
+@NoArgsConstructor(force = true)
 public class Library {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,22 +22,18 @@ public class Library {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private final User user;
 
     @Enumerated
-    private Rate rate;
+    private final Rate rate;
 
     @OneToOne(targetEntity = Album.class)
     @NotNull
-    private Album album;
+    private final Album album;
 
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime modifiedAt;
 
     @Size(max = 100, message = "maximum size of comment : 100")
-    private String comment;
-
-    @PrePersist
-    void createdAt(){
-        this.createdAt = LocalDateTime.now();
-    }
+    private final String comment;
 }

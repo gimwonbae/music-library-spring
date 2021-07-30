@@ -26,6 +26,5 @@ spring:
         show-sql: true
 
 jwt:
-    header: Authorization
     secret: d2FyaXN0by13ZWItbXVzaWMtbGlicmFyeS13b25iYWUtc3ByaW5nLXRvby1kaWZmaWN1bHQtaW0tdmVyeS10aXJlZC10b28tbXVjaC10cmlja3ktbGlmZQo
     token-validity-in-seconds: 86400
