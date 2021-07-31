@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import warsito.musicweblibrary.Rate;
+import warsito.musicweblibrary.dto.ArtistDto;
 import warsito.musicweblibrary.entity.Album;
 import warsito.musicweblibrary.entity.Artist;
 import warsito.musicweblibrary.repo.ArtistRepository;
@@ -29,12 +30,8 @@ public class ArtistController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Artist> postAlbum(@RequestBody Map<String, Object> json){
-        String name = (String) json.get("name");
-        LocalDate born = LocalDate.parse((String) json.get("born"));
-        LocalDate died = LocalDate.parse((String) json.get("died"));
-
-        Artist artist = new Artist(name, born, died);
+    public ResponseEntity<Artist> postAlbum(@RequestBody ArtistDto artistDto){
+        Artist artist = new Artist(artistDto.getName(), artistDto.getBorn(), artistDto.getDied());
         artistRepo.save(artist);
         return new ResponseEntity<>(artist, HttpStatus.CREATED);
     }
