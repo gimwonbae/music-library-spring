@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import warsito.musicweblibrary.Rate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -20,12 +19,10 @@ public class Library {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(targetEntity = User.class)
     private final User user;
 
-    @Enumerated
-    private final Rate rate;
+    private final int rate;
 
     @OneToOne(targetEntity = Album.class)
     @NotNull

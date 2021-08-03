@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import warsito.musicweblibrary.Rate;
 import warsito.musicweblibrary.entity.Album;
 
 import javax.persistence.Enumerated;
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class LibraryDto {
-    private int rateInt;
+    private int rate;
     private Long albumId;
     private String comment;
 }

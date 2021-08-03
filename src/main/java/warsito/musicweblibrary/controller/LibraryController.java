@@ -6,7 +6,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import warsito.musicweblibrary.Rate;
 import warsito.musicweblibrary.dto.LibraryDto;
 import warsito.musicweblibrary.dto.UserSignUpDto;
 import warsito.musicweblibrary.entity.Album;
@@ -49,7 +48,7 @@ public class LibraryController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepo.findByUsername(username);
-        Rate rate = Rate.intToRate(libraryDto.getRateInt());
+        int rate = libraryDto.getRate();
         Album album = albumRepo.findById(libraryDto.getAlbumId()).get();
 
         LocalDateTime createdAt = LocalDateTime.now();

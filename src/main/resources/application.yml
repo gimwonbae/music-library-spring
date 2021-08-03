@@ -14,8 +14,8 @@ spring:
         ddl-auto: true
 
     jpa:
-#        hibernate:
-#            ddl-auto: create
+        hibernate:
+            ddl-auto: create-drop
         properties:
             hibernate:
                 format_sql: true

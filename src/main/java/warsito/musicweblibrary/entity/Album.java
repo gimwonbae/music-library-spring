@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import warsito.musicweblibrary.Rate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -28,6 +27,5 @@ public class Album {
     final private String genre;
     final private LocalDate releaseDate;
 
-    @Enumerated
-    final private Rate rate;
+    final private int rate;
 }

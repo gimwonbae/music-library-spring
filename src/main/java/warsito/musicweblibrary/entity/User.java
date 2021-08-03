@@ -62,10 +62,4 @@ public class User implements UserDetails{
     public boolean isEnabled() {
         return true;
     }
-
-    //    @PrePersist
-//    void createdAt() {
-//        this.createdAt = LocalDate.now();
-//    }
-
 }

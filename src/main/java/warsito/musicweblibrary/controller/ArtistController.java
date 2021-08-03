@@ -3,7 +3,6 @@ package warsito.musicweblibrary.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import warsito.musicweblibrary.Rate;
 import warsito.musicweblibrary.dto.ArtistDto;
 import warsito.musicweblibrary.entity.Album;
 import warsito.musicweblibrary.entity.Artist;
