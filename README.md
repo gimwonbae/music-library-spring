@@ -1,4 +1,4 @@
-# Music Web Library REST API
+# Music Web Library RESTful API
 
 ## User
 
