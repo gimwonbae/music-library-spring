@@ -38,8 +38,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/library/**").authenticated()
-                .antMatchers(HttpMethod.POST, "/album/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/library/**").hasRole("ROLE_ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/album/**").hasRole("ROLE_ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/user/**").hasRole("ROLE_ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/artist/**").hasRole("ROLE_ADMIN")
+
+                .antMatchers(HttpMethod.POST, "/album/**").hasRole("ROLE_ADMIN")
+                .antMatchers(HttpMethod.GET,"/library/**").hasAnyRole()
+                .antMatchers(HttpMethod.POST, "/library/**").hasAnyRole()
                 .anyRequest().permitAll();
 
         http.apply(new TokenFilterConfigurer(tokenProvider));
