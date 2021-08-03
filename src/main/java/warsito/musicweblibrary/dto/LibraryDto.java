@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class LibraryDto {
-    private int rate;
+    private Integer rate;
     private Long albumId;
     private String comment;
 }

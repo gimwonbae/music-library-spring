@@ -41,4 +41,9 @@ public class ArtistController {
         if (optArtist.isPresent()) return new ResponseEntity<>(optArtist.get(), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @DeleteMapping(path = "/{id}")
+    public void deleteArtist(@PathVariable("id") Long id){
+        artistRepo.deleteById(id);
+    }
 }

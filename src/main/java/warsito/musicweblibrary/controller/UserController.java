@@ -10,9 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import warsito.musicweblibrary.dto.UserSignInDto;
 import warsito.musicweblibrary.dto.UserSignUpDto;
 import warsito.musicweblibrary.entity.User;
@@ -60,5 +58,10 @@ public class UserController {
         } catch (AuthenticationException e) {
             throw new CustomException(e.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public void deleteUser(@PathVariable("id") Long id){
+        userRepo.deleteById(id);
     }
 }

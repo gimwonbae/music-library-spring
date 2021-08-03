@@ -1,10 +1,7 @@
 package warsito.musicweblibrary.entity;
 
 import com.sun.istack.NotNull;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -22,15 +19,19 @@ public class Library {
     @OneToOne(targetEntity = User.class)
     private final User user;
 
-    private final int rate;
+    @NonNull
+    private Integer rate;
 
     @OneToOne(targetEntity = Album.class)
     @NotNull
     private final Album album;
 
     private final LocalDateTime createdAt;
-    private final LocalDateTime modifiedAt;
+
+    @NonNull
+    private LocalDateTime modifiedAt;
 
     @Size(max = 100, message = "maximum size of comment : 100")
-    private final String comment;
+    @NonNull
+    private String comment;
 }

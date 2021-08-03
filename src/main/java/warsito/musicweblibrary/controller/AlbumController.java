@@ -63,4 +63,8 @@ public class AlbumController {
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @DeleteMapping(path = "/{id}")
+    public void deleteAlbum(@PathVariable("id") Long id){
+        albumRepo.deleteById(id);
+    }
 }
