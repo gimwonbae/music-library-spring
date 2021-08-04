@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -36,11 +37,15 @@ public class User implements UserDetails{
     private final String email;
 
     private final LocalDate createdAt;
-    private final LocalDate modifiedAt;
+    @NonNull
+    private LocalDate modifiedAt;
+
+    @NonNull
+    private String role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+        return Arrays.asList(new SimpleGrantedAuthority(this.role));
     }
 
     @Override

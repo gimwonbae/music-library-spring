@@ -38,14 +38,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.DELETE, "/library/**").hasRole("ROLE_ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/album/**").hasRole("ROLE_ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/user/**").hasRole("ROLE_ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/artist/**").hasRole("ROLE_ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/library/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/album/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/artist/**").hasRole("ADMIN")
 
-                .antMatchers(HttpMethod.POST, "/album/**").hasRole("ROLE_ADMIN")
-                .antMatchers(HttpMethod.GET,"/library/**").hasAnyRole()
-                .antMatchers(HttpMethod.POST, "/library/**").hasAnyRole()
+                .antMatchers(HttpMethod.POST, "/album/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/library/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST, "/library/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().permitAll();
 
         http.apply(new TokenFilterConfigurer(tokenProvider));
