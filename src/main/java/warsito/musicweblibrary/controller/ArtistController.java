@@ -7,8 +7,10 @@ import warsito.musicweblibrary.dto.ArtistDto;
 import warsito.musicweblibrary.entity.Album;
 import warsito.musicweblibrary.entity.Artist;
 import warsito.musicweblibrary.repo.ArtistRepository;
+import warsito.musicweblibrary.service.ArtistService;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,34 +18,34 @@ import java.util.Optional;
 @RequestMapping(path = "/artist", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class ArtistController {
-    private ArtistRepository artistRepo;
+    private ArtistService artistService;
 
-    public ArtistController(ArtistRepository artistRepo){
-        this.artistRepo = artistRepo;
+    public ArtistController(ArtistService artistService){
+        this.artistService = artistService;
     }
 
     @GetMapping
-    public Iterable<Artist> allArtists(
+    public ResponseEntity<Iterable<Artist>> getArtists(
             @RequestParam(value = "name", required = false, defaultValue = "") String name){
-        return artistRepo.findByNameContains(name);
+        return new ResponseEntity<>(artistService.serachArtists(name), HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Artist> postAlbum(@RequestBody ArtistDto artistDto){
-        Artist artist = new Artist(artistDto.getName(), artistDto.getBorn(), artistDto.getDied());
-        artistRepo.save(artist);
-        return new ResponseEntity<>(artist, HttpStatus.CREATED);
+        return new ResponseEntity<>(artistService.saveArtist(artistDto), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Artist> artistById(@PathVariable("id") Long id){
-        Optional<Artist> optArtist = artistRepo.findById(id);
-        if (optArtist.isPresent()) return new ResponseEntity<>(optArtist.get(), HttpStatus.OK);
+        Optional<Artist> artist = artistService.searchArtist(id);
+        if (artist.isPresent()) return new ResponseEntity<>(artist.get(), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteArtist(@PathVariable("id") Long id){
-        artistRepo.deleteById(id);
+    public ResponseEntity deleteArtist(@PathVariable("id") Long id){
+        boolean flag = artistService.deleteAlbum(id);
+        if (flag) return new ResponseEntity(HttpStatus.NO_CONTENT);
+        else return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 }

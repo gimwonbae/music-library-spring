@@ -10,6 +10,7 @@ import warsito.musicweblibrary.entity.Album;
 import warsito.musicweblibrary.entity.Artist;
 import warsito.musicweblibrary.repo.AlbumRepository;
 import warsito.musicweblibrary.repo.ArtistRepository;
+import warsito.musicweblibrary.service.AlbumService;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -20,16 +21,14 @@ import java.util.Optional;
 @RequestMapping(path = "/album", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class AlbumController {
-    private AlbumRepository albumRepo;
-    private ArtistRepository artistRepo;
+    private AlbumService albumService;
 
-    public AlbumController(AlbumRepository albumRepo, ArtistRepository artistRepo){
-        this.albumRepo = albumRepo;
-        this.artistRepo = artistRepo;
+    public AlbumController(AlbumService albumService){
+        this.albumService = albumService;
     }
 
     @GetMapping
-    public Iterable<Album> searchAlbums(
+    public Iterable<Album> getAlbums(
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
             @RequestParam(value = "genre", required = false, defaultValue = "") String genre,
             @RequestParam(value = "startYear", required = false, defaultValue = "1800") Integer startYear,
@@ -37,34 +36,27 @@ public class AlbumController {
             @RequestParam(value = "startRate", required = false, defaultValue = "0") Integer startRate,
             @RequestParam(value = "endRate", required = false, defaultValue = "5") Integer endRate
     ){
-        LocalDate startDate = LocalDate.of(startYear, 1 ,1);
-        LocalDate endDate = LocalDate.of(endYear, 12, 31);
-        return albumRepo.findByAlbumNameContainsAndGenreContainsAndReleaseDateBetweenAndRateBetween(name, genre, startDate, endDate, startRate, endRate);
+        return albumService.searchAlbums(name, genre, startYear, endYear, startRate, endRate);
     }
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Album> postAlbum(@RequestBody AlbumDto albumDto){
-        String albumName = albumDto.getAlbumName();
-        Artist artist = artistRepo.findById(albumDto.getArtistId()).get();
-        String genre = albumDto.getGenre();
-        LocalDate releaseDate = LocalDate.parse(albumDto.getReleaseDate());
-        int rate = albumDto.getRate();
-
-        Album album = new Album(albumName, artist, genre, releaseDate, rate);
-
-        albumRepo.save(album);
-        return new ResponseEntity<>(album, HttpStatus.CREATED);
+        Optional<Album> album = albumService.addAlbum(albumDto);
+        if (album.isPresent()) return new ResponseEntity<>(album.get(), HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Album> albumById(@PathVariable("id") Long id){
-        Optional<Album> optAlbum = albumRepo.findById(id);
-        if (optAlbum.isPresent()) return new ResponseEntity<>(optAlbum.get(), HttpStatus.OK);
+        Optional<Album> album = albumService.searchAlbum(id);
+        if (album.isPresent()) return new ResponseEntity<>(album.get(), HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteAlbum(@PathVariable("id") Long id){
-        albumRepo.deleteById(id);
+    public HttpStatus deleteAlbum(@PathVariable("id") Long id){
+        boolean flag = albumService.deleteAlbum(id);
+        if (flag) return HttpStatus.NO_CONTENT;
+        else return HttpStatus.BAD_REQUEST;
     }
 }
