@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/artist/**").hasRole("ADMIN")
 
                 .antMatchers(HttpMethod.POST, "/album/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/artist/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET,"/library/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.POST, "/library/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().permitAll();
