@@ -1,5 +1,8 @@
 package warsito.musicweblibrary.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -28,11 +31,13 @@ public class LibraryService {
         this.albumRepository = albumRepository;
     }
 
-    public List<Library> searchLibrary(){
+    public Page<Library> searchLibrary(Integer page, Integer size, String sortBy, String order){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
+        Sort sort = Sort.by(sortBy);
+        if (order.equals("desc")) sort = sort.descending();
         User user = userRepository.findByUsername(username);
-        return libraryRepository.findByUser(user);
+        return libraryRepository.findByUser(user, PageRequest.of(page, size), sort);
     }
 
     public Library saveLibrary(LibraryDto libraryDto){

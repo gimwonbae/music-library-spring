@@ -1,6 +1,9 @@
 package warsito.musicweblibrary.service;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import warsito.musicweblibrary.dto.ArtistDto;
 import warsito.musicweblibrary.entity.Artist;
@@ -17,8 +20,8 @@ public class ArtistService {
         this.artistRepository = artistRepository;
     }
 
-    public Iterable<Artist> serachArtists(String name){
-        return artistRepository.findByNameContains(name);
+    public Page<Artist> serachArtists(String name, Integer page, Integer size){
+        return artistRepository.findByNameContains(name, PageRequest.of(page, size));
     }
 
     public Optional<Artist> searchArtist(Long id){

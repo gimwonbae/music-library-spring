@@ -1,34 +1,37 @@
 package warsito.musicweblibrary.controller;
 
-import com.fasterxml.jackson.datatype.jsr310.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import warsito.musicweblibrary.dto.AlbumDto;
 import warsito.musicweblibrary.entity.Album;
-import warsito.musicweblibrary.entity.Artist;
-import warsito.musicweblibrary.repo.AlbumRepository;
-import warsito.musicweblibrary.repo.ArtistRepository;
 import warsito.musicweblibrary.service.AlbumService;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/album", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class AlbumController {
-    private AlbumService albumService;
+    private final AlbumService albumService;
 
     public AlbumController(AlbumService albumService){
         this.albumService = albumService;
     }
 
-    @GetMapping
-    public Iterable<Album> getAlbums(
+    @GetMapping()
+    public Page<Album> getAlbums(
+            @RequestParam(value = "page") Integer page,
+            @RequestParam(value = "size") Integer size,
+            @RequestParam(value = "sortBy") String sortBy,
+            @RequestParam(value = "order") String order
+    ) {
+        return albumService.searchAlbums(page, size, sortBy, order);
+    }
+
+    @GetMapping(path = "/advanced-search")
+    public Iterable<Album> getAdcancedSearch(
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
             @RequestParam(value = "genre", required = false, defaultValue = "") String genre,
             @RequestParam(value = "startYear", required = false, defaultValue = "1800") Integer startYear,
@@ -36,7 +39,7 @@ public class AlbumController {
             @RequestParam(value = "startRate", required = false, defaultValue = "0") Integer startRate,
             @RequestParam(value = "endRate", required = false, defaultValue = "5") Integer endRate
     ){
-        return albumService.searchAlbums(name, genre, startYear, endYear, startRate, endRate);
+        return albumService.searchAdvanced(name, genre, startYear, endYear, startRate, endRate);
     }
 
     @PostMapping(consumes = "application/json")

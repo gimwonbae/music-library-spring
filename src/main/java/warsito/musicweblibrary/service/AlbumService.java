@@ -1,16 +1,14 @@
 package warsito.musicweblibrary.service;
 
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import warsito.musicweblibrary.dto.AlbumDto;
 import warsito.musicweblibrary.entity.Album;
 import warsito.musicweblibrary.entity.Artist;
-import warsito.musicweblibrary.exception.CustomException;
 import warsito.musicweblibrary.repo.AlbumRepository;
 import warsito.musicweblibrary.repo.ArtistRepository;
 
@@ -26,10 +24,16 @@ public class AlbumService {
         this.albumRepository = albumRepository;
         this.artistRepository = artistRepository;
     }
+    public Page<Album> searchAlbums(Integer page, Integer size, String sortBy, String order){
+        Sort sort;
+        sort = Sort.by(sortBy);
+        if (order.equals("desc")) sort = sort.descending();
+        return albumRepository.findAll(PageRequest.of(page, size, sort));
+    }
     public Optional<Album> searchAlbum(Long id){
         return albumRepository.findById(id);
     }
-    public Iterable<Album> searchAlbums(String name,
+    public Iterable<Album> searchAdvanced(String name,
                                         String genre,
                                         Integer startYear,
                                         Integer endYear,

@@ -1,25 +1,13 @@
 package warsito.musicweblibrary.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import warsito.musicweblibrary.dto.LibraryDto;
-import warsito.musicweblibrary.dto.UserSignUpDto;
-import warsito.musicweblibrary.entity.Album;
 import warsito.musicweblibrary.entity.Library;
-import warsito.musicweblibrary.entity.User;
-import warsito.musicweblibrary.repo.AlbumRepository;
-import warsito.musicweblibrary.repo.LibraryRepository;
-import warsito.musicweblibrary.repo.UserRepository;
-import warsito.musicweblibrary.security.TokenProvider;
 import warsito.musicweblibrary.service.LibraryService;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Controller
 @RequestMapping("/library")
@@ -31,8 +19,13 @@ public class LibraryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Library>> getLibrary(){
-        return new ResponseEntity<>(libraryService.searchLibrary(), HttpStatus.OK);
+    public ResponseEntity<Page<Library>> getLibrary(
+            @RequestParam Integer page,
+            @RequestParam Integer size,
+            @RequestParam String sortBy,
+            @RequestParam String order
+    ){
+        return new ResponseEntity<>(libraryService.searchLibrary(page, size, sortBy, order), HttpStatus.OK);
     }
 
     @PostMapping

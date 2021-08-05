@@ -1,5 +1,6 @@
 package warsito.musicweblibrary.controller;
 
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,11 @@ public class ArtistController {
 
     @GetMapping
     public ResponseEntity<Iterable<Artist>> getArtists(
-            @RequestParam(value = "name", required = false, defaultValue = "") String name){
-        return new ResponseEntity<>(artistService.serachArtists(name), HttpStatus.OK);
+            @RequestParam(value = "name", required = false, defaultValue = "") String name,
+            @RequestParam(value = "page") Integer page,
+            @RequestParam(value = "size") Integer size
+    ){
+        return new ResponseEntity<>(artistService.serachArtists(name, page ,size), HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
