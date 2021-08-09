@@ -37,7 +37,7 @@ public class LibraryService {
         Sort sort = Sort.by(sortBy);
         if (order.equals("desc")) sort = sort.descending();
         User user = userRepository.findByUsername(username);
-        return libraryRepository.findByUser(user, PageRequest.of(page, size), sort);
+        return libraryRepository.findByUser(user, PageRequest.of(page, size, sort));
     }
 
     public Library saveLibrary(LibraryDto libraryDto){

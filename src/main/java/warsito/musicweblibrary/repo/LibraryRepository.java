@@ -12,7 +12,7 @@ import warsito.musicweblibrary.entity.User;
 import java.util.List;
 
 public interface LibraryRepository extends PagingAndSortingRepository<Library, Long> {
-    Page<Library> findByUser(User user, Pageable pageable, Sort sort);
+    Page<Library> findByUser(User user, Pageable pageable);
     Iterable<Library> findByRateBetween(int startRate, int endRate);
     Iterable<Library> findByAlbumContains(Album album);
 }

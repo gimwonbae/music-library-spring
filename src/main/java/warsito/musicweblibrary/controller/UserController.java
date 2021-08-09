@@ -1,34 +1,20 @@
 package warsito.musicweblibrary.controller;
 
-import lombok.extern.log4j.Log4j;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import warsito.musicweblibrary.dto.UserSignInDto;
 import warsito.musicweblibrary.dto.UserSignUpDto;
 import warsito.musicweblibrary.entity.User;
-import warsito.musicweblibrary.exception.CustomException;
-import warsito.musicweblibrary.repo.UserRepository;
-import org.springframework.security.authentication.AuthenticationManager;
-import warsito.musicweblibrary.security.TokenProvider;
-import warsito.musicweblibrary.security.UserRepositoryUserDetailsService;
-
-import java.time.LocalDate;
-import java.util.Map;
+import warsito.musicweblibrary.service.UserService;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    private UserRepositoryUserDetailsService userService;
+    private UserService userService;
 
-    public UserController(UserRepositoryUserDetailsService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
