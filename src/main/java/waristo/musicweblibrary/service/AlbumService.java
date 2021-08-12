@@ -57,7 +57,7 @@ public class AlbumService {
             albumRepository.save(album);
             return Optional.of(album);
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 
