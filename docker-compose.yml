@@ -17,8 +17,8 @@ services:
     environment:
       - PMA_ARBITRARY=1
     container_name: pma
-#  spring:
-#    image: waristo/mwl:latest
-#    ports:
-#      - 8080:8080
-#    container_name: spring
+  spring:
+    image: waristo/mwl:latest
+    ports:
+      - 8080:8080
+    container_name: spring
