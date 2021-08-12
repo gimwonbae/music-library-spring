@@ -1,5 +1,6 @@
 package waristo.musicweblibrary.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class ArtistController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Search All Artist")
     public ResponseEntity<Iterable<Artist>> getArtists(
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
             @RequestParam(value = "page") Integer page,
@@ -29,11 +31,13 @@ public class ArtistController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Artist> postAlbum(@RequestBody ArtistDto artistDto){
+    @ApiOperation(value = "Post Artist Info on website")
+    public ResponseEntity<Artist> postArtsit(@RequestBody ArtistDto artistDto){
         return new ResponseEntity<>(artistService.saveArtist(artistDto), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/{id}")
+    @ApiOperation(value = "Search Artist by ID")
     public ResponseEntity<Artist> artistById(@PathVariable("id") Long id){
         Optional<Artist> artist = artistService.searchArtist(id);
         if (artist.isPresent()) return new ResponseEntity<>(artist.get(), HttpStatus.OK);
@@ -41,6 +45,7 @@ public class ArtistController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @ApiOperation(value = "Delete Artist by ID")
     public ResponseEntity deleteArtist(@PathVariable("id") Long id){
         boolean flag = artistService.deleteAlbum(id);
         if (flag) return new ResponseEntity(HttpStatus.NO_CONTENT);

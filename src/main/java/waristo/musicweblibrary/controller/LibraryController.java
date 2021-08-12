@@ -1,5 +1,6 @@
 package waristo.musicweblibrary.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class LibraryController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Search Album List of User's Library")
     public ResponseEntity<Page<Library>> getLibrary(
             @RequestParam Integer page,
             @RequestParam Integer size,
@@ -29,6 +31,7 @@ public class LibraryController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Add Album on User's Library")
     public ResponseEntity<Library> postLibrary(@RequestBody LibraryDto libraryDto){
         Library library = libraryService.saveLibrary(libraryDto);
         if (library != null) return new ResponseEntity<>(library, HttpStatus.CREATED);
@@ -36,6 +39,7 @@ public class LibraryController {
     }
 
     @PatchMapping
+    @ApiOperation(value = "Update Album on User's Library")
     public ResponseEntity<Library> patchLibrary(@RequestBody LibraryDto libraryDto){
         Library library = libraryService.updateLibrary(libraryDto);
         if (library != null) return new ResponseEntity<>(library, HttpStatus.OK);
@@ -43,6 +47,7 @@ public class LibraryController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @ApiOperation(value = "Delete Album on User's Library")
     public ResponseEntity deleteLibrary(@PathVariable("id") Long id){
         boolean flag = libraryService.deleteLibrary(id);
         if (flag) return new ResponseEntity(HttpStatus.NO_CONTENT);

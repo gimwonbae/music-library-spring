@@ -1,5 +1,6 @@
 package waristo.musicweblibrary.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,11 +20,13 @@ public class UserController {
     }
 
     @PostMapping(consumes = "application/json")
+    @ApiOperation(value = "Sign Up")
     public ResponseEntity<User> postUser(@RequestBody UserSignUpDto userSignUpDto){
         return new ResponseEntity<>(userService.signUp(userSignUpDto), HttpStatus.CREATED);
     }
 
     @PostMapping(path = "/login", consumes = "application/json")
+    @ApiOperation(value = "Log In")
     public ResponseEntity<String> loginUser(@RequestBody UserSignInDto userSignInDto){
         String token = userService.logIn(userSignInDto);
         if (token == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -31,6 +34,7 @@ public class UserController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @ApiOperation(value = "Delete User by ID")
     public ResponseEntity deleteUser(@PathVariable("id") Long id){
         boolean flag = userService.deleteUser(id);
         if (flag) return new ResponseEntity(HttpStatus.NO_CONTENT);

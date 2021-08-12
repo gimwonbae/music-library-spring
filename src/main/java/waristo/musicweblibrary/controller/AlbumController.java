@@ -1,5 +1,6 @@
 package waristo.musicweblibrary.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class AlbumController {
     }
 
     @GetMapping()
+    @ApiOperation(value = "Search All Albums")
     public Page<Album> getAlbums(
             @RequestParam(value = "page") Integer page,
             @RequestParam(value = "size") Integer size,
@@ -31,6 +33,7 @@ public class AlbumController {
     }
 
     @GetMapping(path = "/advanced-search")
+    @ApiOperation(value = "Search Album with advanced-search")
     public Iterable<Album> getAdcancedSearch(
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
             @RequestParam(value = "genre", required = false, defaultValue = "") String genre,
@@ -43,6 +46,7 @@ public class AlbumController {
     }
 
     @PostMapping(consumes = "application/json")
+    @ApiOperation(value = "Post Album Info on Website")
     public ResponseEntity<Album> postAlbum(@RequestBody AlbumDto albumDto){
         Optional<Album> album = albumService.addAlbum(albumDto);
         if (album.isPresent()) return new ResponseEntity<>(album.get(), HttpStatus.CREATED);
@@ -50,6 +54,7 @@ public class AlbumController {
     }
 
     @GetMapping(path = "/{id}")
+    @ApiOperation(value = "Search Album By ID")
     public ResponseEntity<Album> albumById(@PathVariable("id") Long id){
         Optional<Album> album = albumService.searchAlbum(id);
         if (album.isPresent()) return new ResponseEntity<>(album.get(), HttpStatus.OK);
@@ -57,6 +62,7 @@ public class AlbumController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @ApiOperation(value = "Delete Album By ID")
     public HttpStatus deleteAlbum(@PathVariable("id") Long id){
         boolean flag = albumService.deleteAlbum(id);
         if (flag) return HttpStatus.NO_CONTENT;
