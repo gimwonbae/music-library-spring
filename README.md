@@ -1,329 +1,61 @@
 # Music Web Library RESTful API
 
-## User
 
-`POST /user`
+## Prerequisities
 
-### Request
-    
-    {
-    "username" : String,
-    "password" : String,
-    "email" : String
-    }
+### Docker
 
-### Response (example)
-    
-    {
-    "id": 1,
-    "username": "waristo",
-    "password": "$2a$10$qMJjK/aVZ3c7dt3n5F8kTOnsGbgjHlUj96oYyWd69mpuzQ/zwj8X.",
-    "email": "abc@naver.com",
-    "createdAt": "2021-07-31",
-    "modifiedAt": "2021-07-31",
-    "enabled": true,
-    "authorities": [
-        {
-            "authority": "ROLE_USER"
-        }
-    ],
-    "accountNonExpired": true,
-    "accountNonLocked": true,
-    "credentialsNonExpired": true
-    }
+* [Windows](https://docs.docker.com/windows/started)
+* [macOS](https://docs.docker.com/mac/started/)
+* [Linux](https://docs.docker.com/linux/started/)
 
-`POST /artist`
+### Docker Compose
 
-### Request
+### Windows and macOS
 
-    Request Body (Json)
-    
-    {
-        "username" : String,
-        "password" : String
-    }
-    
-### Response (example, Json Web Token)
+Docker Compose is included in
+[Docker Desktop](https://www.docker.com/products/docker-desktop)
+for Windows and macOS.
 
-    eyJ0eXAiOiJKVxMiJ9.eyJzdWIiOiJ3YXJpc3AiOjE2Mjc3OTY1MDN9.aVw1ywRlxYykiETs4USH0EHIBkFpHHzuu7xny3hA
+### Linux
 
-## Library
+[release page](https://github.com/docker/compose/releases)
 
-`POST /user`
+## Usage
 
-### Request (example)
-    
-    Authroization Request Header : Bearer eyJ0eXAiOiJKVxMiJ9.eyJzdWIiOiJ3YXJpc3AiOjE2Mjc3OTY1MDN9.aVw1ywRlxYykiETs4USH0EHIBkFpHHzuu7xny3hA
-    {
-        "rateInt" : 0 to 2
-        "albumId" : int
-        "comment" : String
-    }
+(1) Clone Repo
+```bash
+git clone https://github.com/waristo/music-library-spring.git
+```
 
-### Response (example)
-    
-    {
-    "id": 2,
-    "user": {
-        "id": 1,
-        "username": "waristo",
-        "password": "$2a$10$qMJjK/aVZ3c7dt3n5F8kTOnsGbgjHlUj96oYyWd69mpuzQ/zwj8X.",
-        "email": "abc@naver.com",
-        "createdAt": "2021-07-31",
-        "modifiedAt": "2021-07-31",
-        "enabled": true,
-        "authorities": [
-            {
-                "authority": "ROLE_USER"
-            }
-        ],
-        "accountNonExpired": true,
-        "accountNonLocked": true,
-        "credentialsNonExpired": true
-    },
-    "rate": "LIKE",
-    "album": {
-        "id": 11,
-        "albumName": "hiphop",
-        "artist": {
-            "id": 11,
-            "name": "biggie1",
-            "born": "2020-01-01",
-            "died": "2020-01-21"
-        },
-        "genre": "ready to die1",
-        "releaseDate": "2020-01-21",
-        "rate": "LIKE"
-    },
-    "createdAt": "2021-07-31T14:43:50.392721",
-    "modifiedAt": "2021-07-31T14:43:50.392721",
-    "comment": "wow i love it!"
-    }
+(2) Start Docker Containers (MariaDB, phpmyadmin, Spring'
+```bash
+docker-compose -f docker-compose.yml up
+```
 
-`GET /user`
+## Build
 
-### Request (example)
+(1) build jar
+```bash
+./gradlew clean build
+```
 
-    Authroization Request Header : Bearer eyJ0eXAiOiJKVxMiJ9.eyJzdWIiOiJ3YXJpc3AiOjE2Mjc3OTY1MDN9.aVw1ywRlxYykiETs4USH0EHIBkFpHHzuu7xny3hA
-    
-    
-### Response (example, Json Web Token)
+(2) build docker image
+```bash
+docker build -t waristo/mwl:latest .
+```
 
-    [{
-    "id": 2,
-    "user": {
-        "id": 1,
-        "username": "waristo",
-        "password": "$2a$10$qMJjK/aVZ3c7dt3n5F8kTOnsGbgjHlUj96oYyWd69mpuzQ/zwj8X.",
-        "email": "abc@naver.com",
-        "createdAt": "2021-07-31",
-        "modifiedAt": "2021-07-31",
-        "enabled": true,
-        "authorities": [
-            {
-                "authority": "ROLE_USER"
-            }
-        ],
-        "accountNonExpired": true,
-        "accountNonLocked": true,
-        "credentialsNonExpired": true
-    },
-    "rate": "LIKE",
-    "album": {
-        "id": 11,
-        "albumName": "hiphop",
-        "artist": {
-            "id": 11,
-            "name": "biggie1",
-            "born": "2020-01-01",
-            "died": "2020-01-21"
-        },
-        "genre": "ready to die1",
-        "releaseDate": "2020-01-21",
-        "rate": "LIKE"
-    },
-    "createdAt": "2021-07-31T14:43:50.392721",
-    "modifiedAt": "2021-07-31T14:43:50.392721",
-    "comment": "wow i love it!"
-    },
-    {
-    "id": 2,
-    "user": {
-        "id": 1,
-        "username": "waristo",
-        "password": "$2a$10$qMJjK/aVZ3c7dt3n5F8kTOnsGbgjHlUj96oYyWd69mpuzQ/zwj8X.",
-        "email": "abc@naver.com",
-        "createdAt": "2021-07-31",
-        "modifiedAt": "2021-07-31",
-        "enabled": true,
-        "authorities": [
-            {
-                "authority": "ROLE_USER"
-            }
-        ],
-        "accountNonExpired": true,
-        "accountNonLocked": true,
-        "credentialsNonExpired": true
-    },
-    "rate": "LIKE",
-    "album": {
-        "id": 11,
-        "albumName": "hiphop",
-        "artist": {
-            "id": 11,
-            "name": "biggie1",
-            "born": "2020-01-01",
-            "died": "2020-01-21"
-        },
-        "genre": "ready to die1",
-        "releaseDate": "2020-01-21",
-        "rate": "LIKE"
-    },
-    "createdAt": "2021-07-31T14:43:50.392721",
-    "modifiedAt": "2021-07-31T14:43:50.392721",
-    "comment": "wow i love it!"
-    }
-    ]
+(3) upload to docker hub
+```bash
+docker push waristo/mwl:latest
 
-## Album
+```
+## API Document (after start docker-compose)
 
-`GET /album`
+http://localhost:8080/swagger-ui.html
+![스크린샷 2021-08-12 오후 11 32 48](https://user-images.githubusercontent.com/22341324/129215476-29aa6754-3726-48e1-b586-88c8db3cef67.png)
 
-### Request
+## phpMyAdmin (after start docker-compose)
 
-    Query Param
-    ?name= : contain name, default = ""
-    ?genre= : contain genre, default = ""
-    ?startYear= : default=1000
-    ?endYear= : default=2000
-    ?startRate= : GOOD or LIKE or LOVE, default = GOOD
-    ?endRate = : GOOD or LIKE or LOVE, default = LOVE
-
-### Response (example)
-
-    [
-    {
-        "id": 11,
-        "albumName": "hiphop",
-        "artist": {
-            "id": 11,
-            "name": "biggie1",
-            "born": "2020-01-01",
-            "died": "2020-01-21"
-        },
-        "genre": "ready to die1",
-        "releaseDate": "2020-01-21",
-        "rate": "LIKE"
-    },
-    {
-        "id": 12,
-        "albumName": "hiphop",
-        "artist": {
-            "id": 11,
-            "name": "biggie1",
-            "born": "2020-01-01",
-            "died": "2020-01-21"
-        },
-        "genre": "ready to die2",
-        "releaseDate": "2021-01-21",
-        "rate": "LOVE"
-    }
-    ]
-
-    
-`GET /album/{id}`
-
-### Response (example)
-
-    {
-        "id": 11,
-        "albumName": "hiphop",
-        "artist": {
-            "id": 11,
-            "name": "biggie1",
-            "born": "2020-01-01",
-            "died": "2020-01-21"
-        },
-        "genre": "ready to die1",
-        "releaseDate": "2020-01-21",
-        "rate": "LIKE"
-    }
-    
-`POST /album`
-
-### Request
-
-    Request Body (Json)
-    
-    {
-    "albumName" : String,
-    "artistId" : int,
-    "genre" : String,
-    "releaseDate" : "yyyy-MM-dd",
-    "rate": 0 to 2
-    }
-    
-### Response (example)
-
-    {
-        "id": 11,
-        "albumName": "hiphop",
-        "artist": {
-            "id": 11,
-            "name": "biggie1",
-            "born": "2020-01-01",
-            "died": "2020-01-21"
-        },
-        "genre": "ready to die1",
-        "releaseDate": "2020-01-21",
-        "rate": "LIKE"
-    }
-
-## Artist
-
-`GET /artist`
-
-### Request
-
-    Query Param
-    ?name= : contain name, default = ""
-    
-### Response (example)
-
-    [
-    {
-        "id": 11,
-        "name": "biggie1",
-        "born": "2020-01-01",
-        "died": "2020-01-21"
-    },
-    {
-        "id": 12,
-        "name": "biggie2",
-        "born": "2020-01-01",
-        "died": "2020-01-21"
-    }
-    ]
-
-`POST /artist`
-
-### Request
-
-    Request Body (Json)
-    
-    {
-    "name" : String,
-    "born" : "yyyy-MM-dd",
-    "died" : "yyyy-MM-dd"
-    }
-    
-### Response (example)
-
-    {
-        "id": 12,
-        "name": "biggie2",
-        "born": "2020-01-01",
-        "died": "2020-01-21"
-    }
-
-
+http://localhost:8000
+![스크린샷 2021-08-12 오후 11 34 18](https://user-images.githubusercontent.com/22341324/129215678-8621b162-11d0-4c49-ae7c-8013bc588c8e.png)
