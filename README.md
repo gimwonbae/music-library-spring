@@ -1,5 +1,16 @@
 # Music Web Library RESTful API
 
+## Tech Stack
+### REST API
+`Spring MVC, Swagger, Spring HATEOAS(not now)`  
+### Authentication & Authorization
+`Spring Security, jjwt`  
+### Database
+`Maria DB, Spring Data JPA, phpMyAdmin`  
+### Build
+`gradle, Docker`  
+### Test (not now)
+`Junit5, Mockito`
 
 ## Prerequisities
 
@@ -28,7 +39,7 @@ for Windows and macOS.
 git clone https://github.com/waristo/music-library-spring.git
 ```
 
-(2) Start Docker Containers (MariaDB, phpmyadmin, Spring'
+(2) Start Docker Containers (MariaDB, phpmyadmin, Spring)
 ```bash
 docker-compose -f docker-compose.yml up
 ```
