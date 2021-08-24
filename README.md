@@ -9,7 +9,7 @@
 `Maria DB, Spring Data JPA, phpMyAdmin`  
 ### Build
 `gradle, Docker`  
-### Test (not now)
+### Test
 `Junit5, Mockito`
 
 ## Prerequisities
