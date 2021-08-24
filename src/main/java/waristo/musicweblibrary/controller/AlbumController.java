@@ -23,18 +23,18 @@ public class AlbumController {
 
     @GetMapping()
     @ApiOperation(value = "Search All Albums")
-    public Page<Album> getAlbums(
-            @RequestParam(value = "page") Integer page,
-            @RequestParam(value = "size") Integer size,
-            @RequestParam(value = "sortBy") String sortBy,
-            @RequestParam(value = "order") String order
+    public ResponseEntity<Page<Album>> getAlbums(
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "sortBy", required = false, defaultValue = "desc") String sortBy,
+            @RequestParam(value = "order", required = false, defaultValue = "releaseDate") String order
     ) {
-        return albumService.searchAlbums(page, size, sortBy, order);
+        return new ResponseEntity<>(albumService.searchAlbums(page, size, sortBy, order), HttpStatus.OK);
     }
 
     @GetMapping(path = "/advanced-search")
     @ApiOperation(value = "Search Album with advanced-search")
-    public Iterable<Album> getAdcancedSearch(
+    public ResponseEntity<Iterable<Album>> getAdcancedSearch(
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
             @RequestParam(value = "genre", required = false, defaultValue = "") String genre,
             @RequestParam(value = "startYear", required = false, defaultValue = "1800") Integer startYear,
@@ -42,7 +42,7 @@ public class AlbumController {
             @RequestParam(value = "startRate", required = false, defaultValue = "0") Integer startRate,
             @RequestParam(value = "endRate", required = false, defaultValue = "5") Integer endRate
     ){
-        return albumService.searchAdvanced(name, genre, startYear, endYear, startRate, endRate);
+        return new ResponseEntity<>(albumService.searchAdvanced(name, genre, startYear, endYear, startRate, endRate), HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
